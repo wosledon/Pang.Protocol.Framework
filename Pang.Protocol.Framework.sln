@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2F8AB7C9-BFC9-4D96-98F6-A83C1F4C3E02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5F69A886-E785-44F8-AEBA-85D9F03DC3A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pang.Protocol.Framework", "src\Pang.Protocol.Framework\Pang.Protocol.Framework.csproj", "{92D02092-A382-46BD-BAC7-D4C44DE57ECE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{10112DE6-E2F2-4CC5-8A36-DCFA03CFC87F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C821F91B-B904-4A01-95F5-E0CF505D52F7}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92D02092-A382-46BD-BAC7-D4C44DE57ECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92D02092-A382-46BD-BAC7-D4C44DE57ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92D02092-A382-46BD-BAC7-D4C44DE57ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92D02092-A382-46BD-BAC7-D4C44DE57ECE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{92D02092-A382-46BD-BAC7-D4C44DE57ECE} = {2F8AB7C9-BFC9-4D96-98F6-A83C1F4C3E02}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3A25E8D3-2834-4CCF-91BA-DA740A1B903E}
+	EndGlobalSection
+EndGlobal
