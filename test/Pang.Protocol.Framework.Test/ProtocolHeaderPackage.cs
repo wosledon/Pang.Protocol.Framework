@@ -2,6 +2,8 @@
 
 namespace Pang.Protocol.Framework;
 
+#region Example
+
 public partial record ProtocolHeaderPackage
 {
     public ProtocolHeaderPackage(ref ProtocolMessagePackReader reader)
@@ -9,3 +11,5 @@ public partial record ProtocolHeaderPackage
 
     }
 }
+
+#endregion

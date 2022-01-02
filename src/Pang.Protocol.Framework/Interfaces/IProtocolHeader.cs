@@ -7,7 +7,10 @@ namespace Pang.Protocol.Framework.Interfaces
     /// <summary>
     /// 头部
     /// </summary>
-    public interface IProtocolHeader<TMsgId>
+    public interface IProtocolHeader<TMsgId, THeader> : 
+        IProtocolMessagePackageFormatter<THeader>, 
+        IProtocolAnalyze
+    where THeader: IProtocolHeader<TMsgId, THeader>
     {
         /// <summary>
         /// 消息Id

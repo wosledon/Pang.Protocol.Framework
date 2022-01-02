@@ -2,11 +2,13 @@
 
 namespace Pang.Protocol.Framework.Interfaces
 {
-    // TODO: Header And body
     /// <summary>
     /// 
     /// </summary>
-    public interface IProtocolPackage<TBegin, TEnd, TMsgId>
+    public interface IProtocolPackage<TBegin, THeader, TBodies, TEnd, TPackage>: 
+        IProtocolMessagePackageFormatter<TPackage>,
+        IProtocolAnalyze
+    where TPackage : IProtocolPackage<TBegin, THeader, TBodies, TEnd, TPackage>
     {
         /// <summary>
         /// 起始位
@@ -15,11 +17,11 @@ namespace Pang.Protocol.Framework.Interfaces
         /// <summary>
         /// 头数据
         /// </summary>
-        public abstract ProtocolHeader<TMsgId> Header { get; set; }
+        public abstract THeader Header { get; set; }
         /// <summary>
         /// 数据体
         /// </summary>
-        public abstract ProtocolBodies<TMsgId> Bodies { get; set; }
+        public abstract TBodies Bodies { get; set; }
         /// <summary>
         /// 停止位
         /// </summary>

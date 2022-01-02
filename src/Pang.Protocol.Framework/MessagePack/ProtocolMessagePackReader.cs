@@ -426,8 +426,18 @@ public ref partial struct ProtocolMessagePackReader
     /// 解码时算出校验和
     /// </summary>
     /// <param name="allocateBuffer"> </param>
+    [Obsolete("校验方法无法内置, 请调用Decode(Func<byte[], bool> func)", true)]
     public void Decode(Span<byte> allocateBuffer)
     {
         
+    }
+
+    /// <summary>
+    /// 解码时算出校验和
+    /// </summary>
+    /// <param name="func">校验，Crc或校验和等</param>
+    public void Decode(Func<byte[], bool> func)
+    {
+        _checkVerify =  func(SrcBuffer.ToArray());
     }
 }

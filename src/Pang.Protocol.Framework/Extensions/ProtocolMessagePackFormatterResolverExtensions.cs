@@ -12,14 +12,14 @@ namespace Pang.Protocol.Framework.Extensions;
 /// </summary>
 public static class ProtocolMessagePackFormatterResolverExtensions
 {
-    delegate void NbazhSerializeMethod(object dynamicFormatter, ref ProtocolMessagePackWriter writer, object value);
+    delegate void ProtocolSerializeMethod(object dynamicFormatter, ref ProtocolMessagePackWriter writer, object value);
 
-    delegate dynamic NbazhDeserializeMethod(object dynamicFormatter, ref ProtocolMessagePackReader reader);
+    delegate dynamic ProtocolDeserializeMethod(object dynamicFormatter, ref ProtocolMessagePackReader reader);
 
-    static readonly ConcurrentDictionary<Type, (object Value, NbazhSerializeMethod SerializeMethod)> NbazhSerializers =
+    static readonly ConcurrentDictionary<Type, (object Value, ProtocolSerializeMethod SerializeMethod)> ProtocolSerializers =
         new();
 
-    static readonly ConcurrentDictionary<Type, (object Value, NbazhDeserializeMethod DeserializeMethod)> NbazhDeserializes =
+    static readonly ConcurrentDictionary<Type, (object Value, ProtocolDeserializeMethod DeserializeMethod)> ProtocolDeserializes =
         new();
 
     /// <summary>
@@ -28,13 +28,13 @@ public static class ProtocolMessagePackFormatterResolverExtensions
     /// <param name="objFormatter"></param>
     /// <param name="writer"></param>
     /// <param name="value"></param>
-    public static void NbazhDynamicSerialize(object objFormatter, ref ProtocolMessagePackWriter writer,
+    public static void ProtocolDynamicSerialize(object objFormatter, ref ProtocolMessagePackWriter writer,
         object value)
     {
         Type type = value.GetType();
         var ti = type.GetTypeInfo();
 
-        if (!NbazhSerializers.TryGetValue(type, out var formatterAndDelegate))
+        if (!ProtocolSerializers.TryGetValue(type, out var formatterAndDelegate))
         {
             var t = type;
             {
@@ -48,10 +48,10 @@ public static class ProtocolMessagePackFormatterResolverExtensions
                     serializeMethodInfo,
                     param1,
                     ti.IsValueType ? Expression.Unbox(param2, t) : Expression.Convert(param2, t));
-                var lambda = Expression.Lambda<NbazhSerializeMethod>(body, param0, param1, param2).Compile();
+                var lambda = Expression.Lambda<ProtocolSerializeMethod>(body, param0, param1, param2).Compile();
                 formatterAndDelegate = (objFormatter, lambda);
             }
-            NbazhSerializers.TryAdd(t, formatterAndDelegate);
+            ProtocolSerializers.TryAdd(t, formatterAndDelegate);
         }
         formatterAndDelegate.SerializeMethod(formatterAndDelegate.Value, ref writer, value);
     }
@@ -61,11 +61,11 @@ public static class ProtocolMessagePackFormatterResolverExtensions
     /// <param name="objFormatter"></param>
     /// <param name="reader"></param>
     /// <returns></returns>
-    public static dynamic NbazhDynamicDeserialize(object objFormatter, ref ProtocolMessagePackReader reader)
+    public static dynamic ProtocolDynamicDeserialize(object objFormatter, ref ProtocolMessagePackReader reader)
     {
         var type = objFormatter.GetType();
         //   (object Value, JT808DeserializeMethod DeserializeMethod) formatterAndDelegate;
-        if (!NbazhDeserializes.TryGetValue(type, out var formatterAndDelegate))
+        if (!ProtocolDeserializes.TryGetValue(type, out var formatterAndDelegate))
         {
             var t = type;
             {
@@ -77,10 +77,10 @@ public static class ProtocolMessagePackFormatterResolverExtensions
                     Expression.Convert(param0, type),
                     deserializeMethodInfo,
                     param1);
-                var lambda = Expression.Lambda<NbazhDeserializeMethod>(body, param0, param1).Compile();
+                var lambda = Expression.Lambda<ProtocolDeserializeMethod>(body, param0, param1).Compile();
                 formatterAndDelegate = (objFormatter, lambda);
             }
-            NbazhDeserializes.TryAdd(t, formatterAndDelegate);
+            ProtocolDeserializes.TryAdd(t, formatterAndDelegate);
         }
         return formatterAndDelegate.DeserializeMethod(formatterAndDelegate.Value, ref reader);
     }
