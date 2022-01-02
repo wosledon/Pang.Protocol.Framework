@@ -34,15 +34,33 @@ public ref partial struct ProtocolMessagePackReader
 
     private static readonly byte[] decode7979 = { 0x79, 0x79 };
 
+    private readonly Func<byte[], bool> _func;
+
+    ///// <summary>
+    ///// </summary>
+    ///// <param name="srcBuffer"> </param>
+    //public ProtocolMessagePackReader(ReadOnlySpan<byte> srcBuffer, Func<byte[], bool> func)
+    //{
+    //    SrcBuffer = srcBuffer;
+    //    _func = func;
+    //    ReaderCount = 0;
+    //    Reader = srcBuffer;
+    //    _checkVerify = false;
+    //}
+
     /// <summary>
     /// </summary>
     /// <param name="srcBuffer"> </param>
-    public ProtocolMessagePackReader(ReadOnlySpan<byte> srcBuffer)
+    /// <param name="func"></param>
+    public ProtocolMessagePackReader(ReadOnlySpan<byte> srcBuffer, Func<byte[], bool> func)
     {
         SrcBuffer = srcBuffer;
+        _func = func;
         ReaderCount = 0;
         Reader = srcBuffer;
         _checkVerify = false;
+
+        _func = func;
     }
 
     /// <summary>
@@ -439,5 +457,14 @@ public ref partial struct ProtocolMessagePackReader
     public void Decode(Func<byte[], bool> func)
     {
         _checkVerify =  func(SrcBuffer.ToArray());
+    }
+
+    /// <summary>
+    /// 解码时算出校验和
+    /// </summary>
+    /// <param name="func">校验，Crc或校验和等</param>
+    public void Decode()
+    {
+        _checkVerify = _func(SrcBuffer.ToArray());
     }
 }
